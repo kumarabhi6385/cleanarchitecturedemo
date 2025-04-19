@@ -1,3 +1,4 @@
+using System.Threading.RateLimiting;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Data.SqlClient;
@@ -14,8 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ProductDbContext>(options =>
     options.UseSqlite("Data Source=products.db"));
 
-builder.Services.AddSingleton<IAsyncPolicy>(GetRetryPolicy());
-builder.Services.AddSingleton<IAsyncPolicy>(GetCircuitBreakerPolicy());
+// Register the combined Polly policy
+builder.Services.AddSingleton<IAsyncPolicy>(ResiliencePolicies.WrapRetryAndCircuitBreaker());
 
 builder.Services.AddScoped<IProductRepository, SqlProductRepository>(); // Switch to InMemoryProductRepository for in-memory DB
 //builder.Services.AddSingleton<IProductRepository, InMemoryProductRepository>(); 
@@ -23,6 +24,21 @@ builder.Services.AddMediatR(typeof(CreateProductCommandHandler).Assembly);
 
 builder.Services.AddOpenApi();
 builder.Services.AddOpenApiDocument();
+
+// Add ASP.NET Core Rate Limiting (for .NET 7+)
+builder.Services.AddRateLimiter(options =>
+{
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+        RateLimitPartition.GetFixedWindowLimiter("global", _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 1, // requests
+            Window = TimeSpan.FromMinutes(1),
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            QueueLimit = 0
+        }));
+    options.RejectionStatusCode = 429;
+});
+
 
 var app = builder.Build();
 
@@ -34,6 +50,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRouting();
+
+app.UseRateLimiter();
 
 // Call the middleware to map endpoints
 app.MapEndpoints();
@@ -47,22 +65,3 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
-
-IAsyncPolicy GetRetryPolicy()
-{
-    return Policy.Handle<SqliteException>()
-        .WaitAndRetryAsync(new[]
-            {
-                 TimeSpan.FromSeconds(1),
-                 TimeSpan.FromSeconds(5),
-                 TimeSpan.FromSeconds(10)
-            });
-}
-
-IAsyncPolicy GetCircuitBreakerPolicy()
-{
-    return Policy.Handle<SqliteException>()
-                 .CircuitBreakerAsync(2, TimeSpan.FromMinutes(1));
-}
-
-

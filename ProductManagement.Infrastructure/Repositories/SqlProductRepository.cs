@@ -5,36 +5,31 @@ using Polly;
 public class SqlProductRepository : IProductRepository
 {
     private readonly ProductDbContext _context;
-    private readonly IAsyncPolicy _retryPolicy;
-    private readonly IAsyncPolicy _circuitBreakerPolicy;
+    private readonly IAsyncPolicy _resiliencePolicy;
 
-    public SqlProductRepository(ProductDbContext context, IAsyncPolicy retryPolicy, IAsyncPolicy circuitBreakerPolicy)
+    public SqlProductRepository(ProductDbContext context, IAsyncPolicy resiliencePolicy)
     {
         _context = context;
-        _retryPolicy = retryPolicy;
-        _circuitBreakerPolicy = circuitBreakerPolicy;
+        _resiliencePolicy = resiliencePolicy;
     }
 
-    public async Task<Product> GetByIdAsync(Guid id)
+    public async Task<Product?> GetByIdAsync(Guid id)
     {
-        return await _retryPolicy.ExecuteAsync(async () =>
+        var product = await _resiliencePolicy.ExecuteAsync(async () =>
         {
-            return await _circuitBreakerPolicy.ExecuteAsync(async () =>
-     {
-         return await _context.Products.FindAsync(id);
-     });
+            return await _context.Products.FindAsync(id);
         });
+
+        // product will be null if not found, which is expected
+        return product;
     }
     public async Task<IEnumerable<Product>> GetAllAsync() => await _context.Products.ToListAsync();
     public async Task AddAsync(Product product)
     {
-        await _retryPolicy.ExecuteAsync(async () =>
+        await _resiliencePolicy.ExecuteAsync(async () =>
         {
-            await _circuitBreakerPolicy.ExecuteAsync(async () =>
-         {
-             _context.Products.Add(product);
-             await _context.SaveChangesAsync();
-         });
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
         });
     }
     public async Task UpdateAsync(Product product)
