@@ -15,7 +15,7 @@ public static class EndpointMappingMiddleware
             var product = await mediator.Send(new GetProductQuery { Id = id });
             return product is not null ? Results.Ok(product) : Results.NotFound();
         });
-                
+
         app.MapGet("/api/heartbeat", () => Results.Ok("I am still alive"));
     }
 }

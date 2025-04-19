@@ -11,8 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddDbContext<ProductDbContext>(options =>
 //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDbContext<ProductDbContext>(options => 
-    options.UseSqlite("Data Source=products.db")); 
+builder.Services.AddDbContext<ProductDbContext>(options =>
+    options.UseSqlite("Data Source=products.db"));
 
 builder.Services.AddSingleton<IAsyncPolicy>(GetRetryPolicy());
 builder.Services.AddSingleton<IAsyncPolicy>(GetCircuitBreakerPolicy());
