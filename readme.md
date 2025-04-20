@@ -70,14 +70,18 @@ ProductManagement/
    ![Alt text](Assets/images/clean_architecture.png)  
    In this project:  
    ![Alt text](Assets/images/clean_architecture_net.png)
-2. [CQRS](Assets/docs/clean_architecture.md)  
+2. [CQRS](Assets/docs/cqrs.md)  
    ![Alt text](Assets/images/cqrs.png)
-3. [Repository](Assets/docs/clean_architecture.md)  
+3. [Repository](Assets/docs/repository.md)  
    ![Alt text](Assets/images/repository.png)
-4. Dependency Injection
-5. Retry
-6. Circuit Breaker
-7. Rate Limiter
+4. [Dependency Injection](Assets/docs/retry.md)  
+   ![Alt text](Assets/images/retry.png)
+5. [Retry](Assets/docs/retry.md)  
+   ![Alt text](Assets/images/retry.png)
+6. [Circuit Breaker](Assets/docs/circuit_breaker.md)  
+   ![Alt text](Assets/images/circuit_breaker_state.png)
+7. [Rate Limiter](Assets/docs/rate_limiting.md)  
+   ![Alt text](Assets/images/rate_limiting.png)
 
 ## 🧪 Testing Notes
 
