@@ -66,3 +66,9 @@ In this project:
 | Requirements are likely to evolve              | Requirements are unclear or change rapidly      |
 | Practicing Domain-Driven Design (DDD)          | Risk of overengineering outweighs benefits      |
 | Large teams/multiple developers involved       | Limited resources or need for rapid prototyping |
+
+## However it is similar to Onion, Hexagonal and Vetical Slices Architecture but has few differences.
+
+**Clean and Onion architectures** both aim to isolate business logic and reduce coupling, but Clean Architecture emphasizes framework independence and use cases, while Onion Architecture is more strictly domain-driven and layered.  
+**Hexagonal Architecture** focuses on decoupling the core via ports and adapters, making it ideal for systems with multiple external integrations.  
+**Vertical Slice Architecture** prioritizes feature-level cohesion and independence, making it suitable for rapid development and systems with many discrete features

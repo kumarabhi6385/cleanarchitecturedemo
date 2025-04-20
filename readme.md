@@ -70,8 +70,10 @@ ProductManagement/
    ![Alt text](Assets/images/clean_architecture.png)  
    In this project:  
    ![Alt text](Assets/images/clean_architecture_net.png)
-2. CQRS
-3. Repository
+2. [CQRS](Assets/docs/clean_architecture.md)  
+   ![Alt text](Assets/images/cqrs.png)
+3. [Repository](Assets/docs/clean_architecture.md)  
+   ![Alt text](Assets/images/repository.png)
 4. Dependency Injection
 5. Retry
 6. Circuit Breaker
