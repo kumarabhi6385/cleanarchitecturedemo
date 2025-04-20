@@ -64,13 +64,18 @@ ProductManagement/
 3. Configure connection strings in `appsettings.json`
 4. Apply migrations (when implemented)
 
-## 🔗 Dependency Flow
+## 🔗 Architecture Pattern and Styles used
 
-graph TD
-API --> Application
-API --> Infrastructure
-Application --> Core
-Infrastructure --> Core
+1. [Clean Architecture](Assets/docs/clean_architecture.md)
+   ![Alt text](Assets/images/clean_architecture.png)  
+   In this project:  
+   ![Alt text](Assets/images/clean_architecture_net.png)
+2. CQRS
+3. Repository
+4. Dependency Injection
+5. Retry
+6. Circuit Breaker
+7. Rate Limiter
 
 ## 🧪 Testing Notes
 
