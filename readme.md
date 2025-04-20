@@ -4,10 +4,10 @@ A .NET implementation of Clean Architecture principles with CQRS pattern using M
 
 ## 📦 Solution Structure
 
-ProductManagement/
-├── ProductManagement.Core/ # Domain Layer
-├── ProductManagement.Application/ # Application Layer (CQRS)
-├── ProductManagement.Infrastructure/# Infrastructure Layer
+ProductManagement/  
+├── ProductManagement.Core/ # Domain Layer  
+├── ProductManagement.Application/ # Application Layer (CQRS)  
+├── ProductManagement.Infrastructure/# Infrastructure Layer  
 └── ProductManagement.API/ # Presentation Layer
 
 ## 🛠️ Setup Guide
@@ -74,8 +74,8 @@ ProductManagement/
    ![Alt text](Assets/images/cqrs.png)
 3. [Repository](Assets/docs/repository.md)  
    ![Alt text](Assets/images/repository.png)
-4. [Dependency Injection](Assets/docs/retry.md)  
-   ![Alt text](Assets/images/retry.png)
+4. [Dependency Injection](Assets/docs/di.md)  
+   ![Alt text](Assets/images/di.png)
 5. [Retry](Assets/docs/retry.md)  
    ![Alt text](Assets/images/retry.png)
 6. [Circuit Breaker](Assets/docs/circuit_breaker.md)  
